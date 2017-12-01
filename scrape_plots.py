@@ -5,11 +5,14 @@ import re
 import pandas as pd 
 from socket import error as SocketError 
 import time 
+import sys
 
 white_space_pattern = re.compile(r'/n')
 movies = {'title': [], 'id': [], 'plot': []}
 
-for i in range(4435000, 6000000):
+start_i = sys.argv[0]
+
+for i in range(start_i, 6000000):
 	url = "http://www.imdb.com/title/tt{}/plotsummary?ref_=tt_stry".format(i)
 	try: 
 		r = requests.get(url)
