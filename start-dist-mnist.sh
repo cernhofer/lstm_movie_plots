@@ -22,12 +22,12 @@ if [[ $ver == '1.3' ]]; then
 fi
 
 cd $(dirname $0)
-# DATADIR=$1
-# OUTDIR=$2
+DATADIR=$1
+OUTDIR=$2
 
 ROLE=$(hostname | awk -F'-' '{ print $1 }')
 INDEX=$(hostname | awk -F'-' '{ print $2 }')
 
 export TF_CONFIG=$(sed "s/__INDEX__/$INDEX/;s/__ROLE__/$ROLE/" tf_config.json)
 
-python trainer/task.py
+python lstm.py
