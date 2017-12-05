@@ -8,11 +8,12 @@ import time
 import sys
 
 white_space_pattern = re.compile(r'/n')
-movies = {'title': [], 'id': [], 'plot': []}
 
-start_i = sys.argv[0]
+start_i = int(sys.argv[1])
+end_i = int(sys.argv[2])
 
-for i in range(start_i, 6000000):
+
+for i in range(start_i, end_i):
 	url = "http://www.imdb.com/title/tt{}/plotsummary?ref_=tt_stry".format(i)
 	try: 
 		r = requests.get(url)
@@ -38,7 +39,7 @@ for i in range(start_i, 6000000):
 
 
 	if i % 5000 == 0 :
-		file_name = "movies23_{}.csv".format(i)
+		file_name = "movies_{}.csv".format(i)
 		df = pd.DataFrame(movies)
 		df.to_csv(file_name)
 
