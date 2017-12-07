@@ -140,6 +140,7 @@ if __name__ == "__main__":
 
 	sess.run(tf.global_variables_initializer())
 
+	myfile = open('output.txt', 'w')
 
 	if ckpt_file == "":
 		last_time = time.time()
@@ -166,32 +167,10 @@ if __name__ == "__main__":
 				last_time = new_time
 
 				print("batch: ", i, "   loss: ", curr_loss, "   speed: ", (100.0/diff), " batches / s")
+				myfile.writelines("batch: ", i, "   loss: ", curr_loss, "   speed: ", (100.0/diff), " batches / s")
 
-		save_model.save(sess, "model.ckpt")
-
-
-	ckpt_file = "model.ckpt"
-	if ckpt_file != "":
-		save_model.restore(sess, ckpt_file)
-
-	TEST_PREFIX = str(raw_input('Input:'))
-	# get user input and lower it 
-
-	for i in range(len(TEST_PREFIX)):
-		out = lstm.run_step(create_vectors(TEST_PREFIX[i], vocab) , i==0)
-
-	gen_str = TEST_PREFIX
-	for i in range(output_txt_len):
-		element = np.random.choice(range(len(vocab)), p = out ) 
-		gen_str += vocab[element]
-
-		out = lstm.run_step(create_vectors(vocab[element], vocab) , False )
-
-	print(gen_str)
-	
-	output_string = re.match(r'(.*)\.', gen_str)
-
-	print(output_string[0])
+		save_model.save(sess, "gcloud_model.ckpt")
+		myfile.close()
 
 
 
